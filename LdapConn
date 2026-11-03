@@ -12,5 +12,35 @@ import javax.naming.directory.*;
 
 
 public class ldapConn{
-  
+  String domainBase = "dc=int,dc=moi,dc=gov";
+  String adminFilter = "";
+  String[] returnAttributes = {"distinguishedName","userAccountControl"};
+  DirContext dircontext= null;
+  Properties prop = new Properties();
+  prop.put(context.INITIAL_CONTEXT_FACTORY,"com.sun.jndi.ldap.ldapCtxFactory");
+  prop.put(context.PROVIDER_URL,"ldap://ldapURL:port");
+  prop.put(context.SECURITY_PRINCIPAL,"username");
+  prop.put(context.SECURITY_AUTHENTICATION,"simple");
+  prop.put(context.SECURITY_CREDENTIALS,"PWD");
+  prop.put(context.REFERRAL, "follow");
+    
+  try{
+    dirContext = new initialDirContext(prop);
+  }
+  Catch(Exception ex){}
+  SearchControls searchCtrls = new SearchControls();
+  searchCtrls.setSearchScope(searchControls.SUBTREE_SCOPE);
+  searchCtrls.setReturnAttributes(returnAttributes);
+  NamingEnumeration<SearchResult> adminResult = null;
+  String distinguishedName="";
+  try{
+      adminFilter = "(&(objectClass=user)(sAMAccountName="+"adnan"+"))";
+      adminResult= dirContext.search(domainBase, adminFilter, searchCtrls);
+      while(adminResult !=null && adminResult.hasMore()){
+          SearchResult rs = (SearchResult) adminResult.next();
+          Attributes attrs = rs.getAttributes();
+
+      }
+  }catch(Exception Ex){
+  }
 }
